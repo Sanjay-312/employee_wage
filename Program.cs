@@ -10,13 +10,7 @@ namespace CalculateEmpWages
 
         public const int is_part_time = 2;
 
-        public const int wage_per_hour = 20;
-
-        public const int no_of_days_in_month = 20;
-
-        public const int max_hrs_in_month = 100;
-
-        public static int calculateWages()
+        public static int calculateWages(string company,int wage_per_hour,int no_of_working_days,int max_hrs_in_month)
         {
             int total_wage = 0;
 
@@ -26,7 +20,7 @@ namespace CalculateEmpWages
 
             int emp_hours = 0;
 
-            while (emp_hours <= max_hrs_in_month && total_working_days < no_of_days_in_month)
+            while (emp_hours <= max_hrs_in_month && total_working_days < no_of_working_days)
             {
                 total_working_days++;
 
@@ -52,7 +46,7 @@ namespace CalculateEmpWages
                 Console.WriteLine("day " + total_working_days + " emp hrs : " + emp_hours);
 
             }
-            Console.WriteLine("---------------------------------------");
+            Console.WriteLine("---------------------------------");
 
             total_wage = emp_hours * wage_per_hour;
 
@@ -62,8 +56,10 @@ namespace CalculateEmpWages
         static void Main(string[] args)
         {
             
-        calculateWages();
-            
+            calculateWages("D-mart",20,20,100);
+            Console.WriteLine("---------------------------------");
+            calculateWages("Jio", 10, 20, 50);
+
         }
     }
 }

@@ -15,7 +15,8 @@ namespace CalculateEmpWages
         public const int no_of_days_in_month = 20;
 
         public const int max_hrs_in_month = 100;
-        static void Main(string[] args)
+
+        public static int calculateWages()
         {
             int total_wage = 0;
 
@@ -25,7 +26,7 @@ namespace CalculateEmpWages
 
             int emp_hours = 0;
 
-            while (emp_hours<=max_hrs_in_month && total_working_days<no_of_days_in_month )
+            while (emp_hours <= max_hrs_in_month && total_working_days < no_of_days_in_month)
             {
                 total_working_days++;
 
@@ -42,21 +43,27 @@ namespace CalculateEmpWages
                         total_hours_per_day = 4;
                         break;
                     default:
-                       total_hours_per_day = 0;
-                       break;
+                        total_hours_per_day = 0;
+                        break;
 
                 }
                 emp_hours += total_hours_per_day;
 
-                Console.WriteLine("day " + total_working_days + " emp hrs : " +emp_hours);
-            
+                Console.WriteLine("day " + total_working_days + " emp hrs : " + emp_hours);
+
             }
             Console.WriteLine("---------------------------------------");
 
             total_wage = emp_hours * wage_per_hour;
 
-            Console.WriteLine("total emp wage : " +total_wage);
-
+            Console.WriteLine("total emp wage : " + total_wage);
+            return total_wage;
+        }
+        static void Main(string[] args)
+        {
+            
+        calculateWages();
+            
         }
     }
 }

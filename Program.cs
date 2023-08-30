@@ -4,44 +4,15 @@ using System.Linq.Expressions;
 
 namespace CalculateEmpWages
 {
-    internal class Program
+
+    public class CompanyEmpWage
     {
-        static void Main(string[] args)
-        {
-            
-            EmpWageBulderObject company_1 = new EmpWageBulderObject("D-mart",20,20,100);
-            
-            EmpWageBulderObject company_2=new EmpWageBulderObject("Jio",10,10,50);
-
-            company_1.calculateWages();
-
-            Console.WriteLine("---------------------------------------");
-
-            Console.WriteLine(company_1.toString());
-            Console.WriteLine("----------------------------------------");
-
-            company_2.calculateWages();
-            Console.WriteLine("----------------------------------------");
-            Console.WriteLine(company_2.toString());
-            Console.WriteLine("----------------------------------------");
-
-
-        }
-    }
-
-    public class EmpWageBulderObject
-    {
-        public const int is_full_time = 1;
-
-        public const int is_part_time = 2;
-
-        private string company;
-        private int wage_per_hour;
-        private int no_of_working_days;
-        private int max_hrs_in_month;
-        private int total_wage = 0;
-
-        public EmpWageBulderObject(string compnay,int wage_per_hour,int no_of_working_days,int max_hrs_in_month)
+        public string company;
+        public int wage_per_hour;
+        public int no_of_working_days;
+        public int max_hrs_in_month;
+        public int total_wage;
+        public CompanyEmpWage(string compnay, int wage_per_hour, int no_of_working_days, int max_hrs_in_month)
         {
             this.company = compnay;
             this.wage_per_hour = wage_per_hour;
@@ -49,7 +20,66 @@ namespace CalculateEmpWages
             this.max_hrs_in_month = max_hrs_in_month;
 
         }
-        public void calculateWages()
+        public void setTotalEmpWage(int total_wage)
+        {
+            this.total_wage = total_wage;
+        }
+        public string toString()
+        {
+            return "total emp wage for company " + this.company + " is " + this.total_wage;
+        }
+    }
+
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+            EmpWageBulderArray empWageBulder= new EmpWageBulderArray();
+
+            empWageBulder.addCompanyEmpWages("Smart", 25, 20, 90);
+            empWageBulder.addCompanyEmpWages("reliance", 20, 22, 100);
+            
+            empWageBulder.computeEmpWage();
+            
+
+
+
+
+
+        }
+    }
+
+    public class EmpWageBulderArray
+    {
+        public const int is_full_time = 1;
+
+        public const int is_part_time = 2;
+
+        private int no_of_companys = 0;
+
+        private CompanyEmpWage[] companyEmpWageArray;
+
+        public EmpWageBulderArray()
+        {
+            this.companyEmpWageArray = new CompanyEmpWage[5];
+        }
+
+        public void addCompanyEmpWages(string compnay, int wage_per_hour, int no_of_working_days, int max_hrs_in_month)
+        {
+            companyEmpWageArray[this.no_of_companys] = new CompanyEmpWage(compnay, wage_per_hour, no_of_working_days, max_hrs_in_month);
+            no_of_companys++;
+        }
+        public void computeEmpWage()
+        {
+            for (int i = 0; i < no_of_companys; i++)
+            {
+                companyEmpWageArray[i].setTotalEmpWage(this.computeEmpWage(this.companyEmpWageArray[i]));
+                Console.WriteLine(this.companyEmpWageArray[i].toString());
+            }
+        }
+        private int computeEmpWage(CompanyEmpWage companyEmpWage)
         {
             int total_hours_per_day = 0;
 
@@ -57,7 +87,7 @@ namespace CalculateEmpWages
 
             int emp_hours = 0;
 
-            while (emp_hours <= max_hrs_in_month && total_working_days < no_of_working_days)
+            while (emp_hours <= companyEmpWage.max_hrs_in_month && total_working_days <companyEmpWage.no_of_working_days)
             {
                 total_working_days++;
 
@@ -79,23 +109,19 @@ namespace CalculateEmpWages
 
                 }
                 emp_hours += total_hours_per_day;
+                
 
                 Console.WriteLine("day " + total_working_days + " emp hrs : " + emp_hours);
-
+                
             }
 
-            total_wage = emp_hours * wage_per_hour;
 
-            Console.WriteLine("total emp wage : " + total_wage);
-            
+            return emp_hours * companyEmpWage.wage_per_hour;
 
-           
-            
-
-        }
-        public string toString()
-        {
-            return "total emp wage for company " + this.company + " is " + this.total_wage;
         }
     }
+
+    
+    
+    
 }
